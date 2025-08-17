@@ -10,17 +10,17 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
      @Override
-     public List<CustomerService> getAllCustomers() {
+     public List<Customer> getAllCustomers() {
           return List.of();
      }
 
      @Override
-     public CustomerService createCustomer(Customer customerService) {
+     public Customer createCustomer(Customer customerService) {
           return null;
      }
 
      @Override
-     public CustomerService getCustomerById(Long id) {
+     public Customer getCustomerById(Long id) {
           return null;
      }
 
