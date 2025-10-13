@@ -1,6 +1,7 @@
 package org.himalayas.controller;
 
 import org.himalayas.entity.Customer;
+import org.himalayas.entity.Order;
 import org.himalayas.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
