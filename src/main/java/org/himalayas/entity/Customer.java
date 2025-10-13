@@ -1,11 +1,15 @@
 package org.himalayas.entity;
 
-import java.util.List;
+import javax.persistence.*;
 
-public  class Customer {
-
+@Entity
+@Table(name = "customers")
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Column(nullable = false, unique = true)
     private String email;
     private String password;
     private String phoneNumber;
@@ -46,5 +50,8 @@ public  class Customer {
     }
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public void setUsername(String username) {
     }
 }

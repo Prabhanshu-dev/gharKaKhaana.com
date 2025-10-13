@@ -3,6 +3,7 @@ package org.himalayas.controller;
 import org.himalayas.entity.Customer;
 import org.himalayas.entity.Order;
 import org.himalayas.service.CustomerService;
+import org.himalayas.service.UpiPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public class CustomerController {
 
     @Autowired
     CustomerService customerService;
+
+    @Autowired
+    private UpiPaymentService upiPaymentService;
 
     @GetMapping("/customers")
     public List<Customer> getAllCustomers() {
@@ -40,10 +44,9 @@ public class CustomerController {
     }
 
     @PostMapping("/checkout")
-    public Boolean checkOutAndPay(@RequestParam String username, @RequestParam String password) {
-        // Logic to check out and pay
-        // This is a placeholder; implement your checkout logic here
-        return "admin".equals(username) && "password".equals(password);
+    public Boolean checkOutAndPay(@RequestParam String upiId, @RequestParam double amount) {
+        // Simulate UPI payment
+        return upiPaymentService.processPayment(upiId, amount);
     }
 
     @GetMapping("/trackOrder")
