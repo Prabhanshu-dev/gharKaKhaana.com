@@ -46,8 +46,8 @@ public class CustomerRepositoryServiceImpl implements CustomerRepository {
     }
 
     @Override
-    public Customer findById(Long id) {
-        return customerStore.get(id);
+    public Optional<Customer> findById(Long id) {
+        return Optional.ofNullable(customerStore.get(id));
     }
 
     @Override
