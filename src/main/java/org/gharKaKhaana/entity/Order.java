@@ -1,8 +1,17 @@
-package org.himalayas.entity;
+package org.gharKaKhaana.entity;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "orders")
 public class Order {
+    @Id
+    @Column(name = "orderId")
     private String orderId;
     private String status;
+
+    public Order() {
+    }
 
     public Order(String orderId, String status) {
         this.orderId = orderId;
@@ -25,4 +34,3 @@ public class Order {
         this.status = status;
     }
 }
-

@@ -1,6 +1,6 @@
-package org.himalayas.controller;
+package org.gharKaKhaana.controller;
 
-import org.himalayas.service.AiService;
+import org.gharKaKhaana.service.AiService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

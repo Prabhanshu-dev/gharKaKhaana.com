@@ -1,10 +1,10 @@
-package org.himalayas.service.ServiceImpl;
+package org.gharKaKhaana.service.ServiceImpl;
 
 
-import org.himalayas.entity.Customer;
-import org.himalayas.entity.Order;
-import org.himalayas.repository.CustomerRepository;
-import org.himalayas.service.CustomerService;
+import org.gharKaKhaana.entity.Customer;
+import org.gharKaKhaana.entity.Order;
+import org.gharKaKhaana.repository.CustomerRepository;
+import org.gharKaKhaana.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +23,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Customer createCustomer(Customer customer) {
-        return customerRepository.save(customer);
+    public Boolean createCustomer(Customer customer) {
+        try{
+            Customer  result = customerRepository.save(customer);
+            return true;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -40,14 +46,14 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Boolean login(String username, String password) {
-        Customer customer = customerRepository.findByUsername(username);
+        Optional<Customer> customer = customerRepository.findByUsernameAndPassword(username,password);
         // Placeholder: check password (assuming Customer has getPassword())
         return customer != null && "password".equals(password);
     }
 
     @Override
     public Boolean signup(String username, String password) {
-        Customer existing = customerRepository.findByUsername(username);
+        Optional<Customer> existing = customerRepository.findByUsername(username);
         if (existing != null) return false;
         Customer customer = new Customer();
         customer.setUsername(username);
@@ -63,9 +69,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Order trackOrder(String orderId) {
+    public Order trackOrder(Long orderId) {
         // Placeholder logic for tracking order
-        return new Order(orderId, "In Transit");
+        return new Order(String.valueOf(orderId), "In Transit");
     }
 
      // Implement methods from the Customer interface here

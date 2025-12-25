@@ -1,9 +1,9 @@
-package org.himalayas.service.ServiceImpl;
+package org.gharKaKhaana.service.ServiceImpl;
 
 import com.razorpay.Order;
 import com.razorpay.RazorpayClient;
 import org.json.JSONObject;
-import org.himalayas.service.UpiPaymentService;
+import org.gharKaKhaana.service.UpiPaymentService;
 import org.springframework.stereotype.Service;
 
 @Service

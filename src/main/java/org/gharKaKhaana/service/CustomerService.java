@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface CustomerService {
 
      List<Customer> getAllCustomers();
-     Customer createCustomer(Customer customerService);
+     Boolean createCustomer(Customer customerService);
     Optional<Customer> getCustomerById(Long id);
     void deleteCustomer(Long id);
     Boolean login(String username, String password);

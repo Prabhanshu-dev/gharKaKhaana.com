@@ -1,4 +1,4 @@
-package org.himalayas.entity;
+package org.gharKaKhaana.entity;
 
 import jakarta.persistence.*;
 

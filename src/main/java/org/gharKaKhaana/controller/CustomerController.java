@@ -1,9 +1,9 @@
-package org.himalayas.controller;
+package org.gharKaKhaana.controller;
 
-import org.himalayas.entity.Customer;
-import org.himalayas.entity.Order;
-import org.himalayas.service.CustomerService;
-import org.himalayas.service.UpiPaymentService;
+import org.gharKaKhaana.entity.Customer;
+import org.gharKaKhaana.entity.Order;
+import org.gharKaKhaana.service.CustomerService;
+import org.gharKaKhaana.service.UpiPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
-    public Customer createCustomer(@RequestBody Customer customer) {
+    public Boolean createCustomer(@RequestBody Customer customer) {
         return customerService.createCustomer(customer);
     }
 
@@ -40,6 +40,7 @@ public class CustomerController {
     public Boolean signup(@RequestParam String username, @RequestParam String password) {
         // Logic to register a new user
         // This is a placeholder; implement your registration logic here
+          customerService.signup(username,password);
         return true; // Assume registration is successful
     }
 
@@ -50,10 +51,10 @@ public class CustomerController {
     }
 
     @GetMapping("/trackOrder")
-    public Order trackOrder(@RequestParam String orderId) {
+    public Order trackOrder(@RequestParam Long orderId) {
         // Logic to track an order
         // This is a placeholder; implement your order tracking logic here
-        return new Order(orderId, "In Transit");
+        return new Order(String.valueOf(orderId), "In Transit");
     }
     // Add more methods as needed for your application
 }
