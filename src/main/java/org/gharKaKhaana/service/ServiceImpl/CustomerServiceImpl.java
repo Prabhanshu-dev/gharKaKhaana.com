@@ -2,6 +2,7 @@ package org.gharKaKhaana.service.ServiceImpl;
 
 
 import org.gharKaKhaana.entity.Customer;
+import org.gharKaKhaana.entity.Items;
 import org.gharKaKhaana.entity.Order;
 import org.gharKaKhaana.repository.CustomerRepository;
 import org.gharKaKhaana.service.CustomerService;
@@ -53,7 +54,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Boolean signup(String username, String password) {
-        Optional<Customer> existing = customerRepository.findByUsername(username);
+        Optional<Customer> existing = customerRepository.findByName(username);
         if (existing != null) return false;
         Customer customer = new Customer();
         customer.setUsername(username);
@@ -74,7 +75,12 @@ public class CustomerServiceImpl implements CustomerService {
         return new Order(String.valueOf(orderId), "In Transit");
     }
 
-     // Implement methods from the Customer interface here
+    @Override
+    public Optional<Items> fetchAllItems() {
+        return customerRepository.fetchAllItems();
+    }
+
+    // Implement methods from the Customer interface here
 
 
 

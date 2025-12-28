@@ -1,6 +1,7 @@
 package org.gharKaKhaana.controller;
 
 import org.gharKaKhaana.entity.Customer;
+import org.gharKaKhaana.entity.Items;
 import org.gharKaKhaana.entity.Order;
 import org.gharKaKhaana.service.CustomerService;
 import org.gharKaKhaana.service.UpiPaymentService;
@@ -31,17 +32,13 @@ public class CustomerController {
 
     @GetMapping("/login")
     public Boolean login(@RequestParam String username, @RequestParam String password) {
-        // Logic to authenticate user
-        // This is a placeholder; implement your authentication logic here
         return "admin".equals(username) && "password".equals(password);
     }
 
     @PostMapping("/signup")
     public Boolean signup(@RequestParam String username, @RequestParam String password) {
-        // Logic to register a new user
-        // This is a placeholder; implement your registration logic here
           customerService.signup(username,password);
-        return true; // Assume registration is successful
+          return true;
     }
 
     @PostMapping("/checkout")
@@ -52,9 +49,13 @@ public class CustomerController {
 
     @GetMapping("/trackOrder")
     public Order trackOrder(@RequestParam Long orderId) {
-        // Logic to track an order
-        // This is a placeholder; implement your order tracking logic here
         return new Order(String.valueOf(orderId), "In Transit");
     }
-    // Add more methods as needed for your application
+
+
+    @GetMapping("/fetchAllDishes")
+    public Items fetchAllDishes() {
+        // Logic to fetch all dishes
+        return customerService.fetchAllItems().orElse(null);
+    }
 }
