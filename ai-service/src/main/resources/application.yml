@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: ai-service
+
+server:
+  port: 8086
+
+# AI configuration
+ai:
+  openai:
+    api-key: ${OPENAI_API_KEY:mock_key_for_dev}

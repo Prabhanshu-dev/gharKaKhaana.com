@@ -1,0 +1,76 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      # ── Global default filters applied to every route ─────────────
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+
+      # ── Route Definitions ─────────────────────────────────────────
+      # JWT validation is handled by JwtAuthenticationFilter (GlobalFilter)
+      # before any route is matched. Public auth paths are whitelisted there.
+      routes:
+
+        # auth-service — identity, registration, login
+        - id: auth-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/auth/**
+
+        # vendor-service — kitchen profile management
+        - id: vendor-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/vendors/**
+
+        # menu-service — dish catalogue and availability
+        - id: menu-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/menu/**
+
+        # order-service — order lifecycle and state machine
+        - id: order-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/orders/**
+
+        # payment-service — Razorpay integration
+        - id: payment-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/payments/**
+
+        # ai-service — OpenAI customer-facing chat assistant
+        - id: ai-service
+          uri: http://localhost:8086
+          predicates:
+            - Path=/api/ai/**
+
+      # ── CORS Global Policy ────────────────────────────────────────
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOriginPatterns: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+
+# ── Server ────────────────────────────────────────────────────────
+server:
+  port: 8080
+
+# ── Gateway-specific Config ───────────────────────────────────────
+gateway:
+  jwt:
+    # JWT signing secret — MUST match auth-service JWT_SECRET env var
+    # In production: inject via environment variable only
+    # Example: JWT_SECRET=<256-bit-base64-encoded-secret>
+    secret: ${JWT_SECRET:ThisIsADevSecretKeyThatMustBeAtLeast256BitsLong!GKK2024}

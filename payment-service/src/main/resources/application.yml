@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: payment-service
+
+  datasource:
+    url: ${DB_PAYMENT_URL:jdbc:mysql://localhost:3306/gkk_payment_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${DB_PAYMENT_USER:root}
+    password: ${DB_PAYMENT_PASS:12345}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+server:
+  port: 8085

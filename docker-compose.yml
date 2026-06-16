@@ -1,0 +1,157 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # MySQL Database - Single instance with multiple schemas
+  # ==========================================
+  mysql:
+    image: mysql:8.0
+    container_name: gkk-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init-dbs.sql:/docker-entrypoint-initdb.d/init-dbs.sql
+
+  # ==========================================
+  # API Gateway
+  # ==========================================
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: api-gateway
+    container_name: gkk-api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - mysql
+
+  # ==========================================
+  # Auth Service
+  # ==========================================
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: auth-service
+    container_name: gkk-auth-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_AUTH_URL=jdbc:mysql://mysql:3306/gkk_auth_db?useSSL=false&allowPublicKeyRetrieval=true
+      - DB_AUTH_USER=root
+      - DB_AUTH_PASS=${DB_ROOT_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - mysql
+
+  # ==========================================
+  # Vendor Service
+  # ==========================================
+  vendor-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: vendor-service
+    container_name: gkk-vendor-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_VENDOR_URL=jdbc:mysql://mysql:3306/gkk_vendor_db?useSSL=false&allowPublicKeyRetrieval=true
+      - DB_VENDOR_USER=root
+      - DB_VENDOR_PASS=${DB_ROOT_PASSWORD}
+    depends_on:
+      - mysql
+
+  # ==========================================
+  # Menu Service
+  # ==========================================
+  menu-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: menu-service
+    container_name: gkk-menu-service
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_MENU_URL=jdbc:mysql://mysql:3306/gkk_menu_db?useSSL=false&allowPublicKeyRetrieval=true
+      - DB_MENU_USER=root
+      - DB_MENU_PASS=${DB_ROOT_PASSWORD}
+    depends_on:
+      - mysql
+
+  # ==========================================
+  # Order Service
+  # ==========================================
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: order-service
+    container_name: gkk-order-service
+    ports:
+      - "8084:8084"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_ORDER_URL=jdbc:mysql://mysql:3306/gkk_order_db?useSSL=false&allowPublicKeyRetrieval=true
+      - DB_ORDER_USER=root
+      - DB_ORDER_PASS=${DB_ROOT_PASSWORD}
+    depends_on:
+      - mysql
+
+  # ==========================================
+  # Payment Service
+  # ==========================================
+  payment-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: payment-service
+    container_name: gkk-payment-service
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_PAYMENT_URL=jdbc:mysql://mysql:3306/gkk_payment_db?useSSL=false&allowPublicKeyRetrieval=true
+      - DB_PAYMENT_USER=root
+      - DB_PAYMENT_PASS=${DB_ROOT_PASSWORD}
+    depends_on:
+      - mysql
+
+  # ==========================================
+  # AI Service
+  # ==========================================
+  ai-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        MODULE_NAME: ai-service
+    container_name: gkk-ai-service
+    ports:
+      - "8086:8086"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+    depends_on:
+      - mysql
+
+volumes:
+  mysql_data:
